@@ -10,7 +10,7 @@ from googletrans import Translator
 
 # ── CONFIGURATION ─────────────────────────────────────────────────────
 GEMINI_API_URL  = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent"
-GEMINI_API_KEY  = "AIzaSyC8p47vwjD_0UOVKWEgOBzh5B-vQ3UZ6-w"
+GEMINI_API_KEY  = "YOUR-API-KEY"
 EMBED_PATH      = "krishimitra_unified_embeddings.pt"
 DATAFILES = {
     "qa":        "krishimitra_dataset.csv",

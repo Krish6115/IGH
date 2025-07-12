@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AgriGuru</title>
+  <style>
+    body { margin:0; font-family:'Segoe UI',sans-serif;
+      background:linear-gradient(to bottom right,#d1fae5,#a7f3d0); }
+    .center{display:flex;justify-content:center;align-items:center;}
+    .landing{height:100vh;flex-direction:column;text-align:center;padding:20px;}
+    .logo{background:#10b981;border-radius:50%;width:96px;height:96px;
+      font-size:2.5rem;color:white;line-height:96px;}
+    .title{font-size:3rem;font-weight:bold;color:#065f46;margin-top:20px;}
+    .subtitle{font-size:1.5rem;color:#047857;}
+    .btn{margin-top:30px;background:#10b981;color:white;border:none;
+      padding:15px 30px;font-size:1rem;border-radius:50px;cursor:pointer;}
+    .chat-container{display:none;flex-direction:column;height:100vh;
+      max-width:700px;margin:auto;background:rgba(255,255,255,0.8);
+      border-radius:10px;padding:10px;}
+    .messages{flex:1;overflow-y:auto;padding:10px;}
+    .message{margin:10px 0;padding:10px 15px;border-radius:10px;
+      max-width:70%;word-wrap:break-word;}
+    .user{background:#10b981;color:white;align-self:flex-end;}
+    .ai{background:#fff;border:1px solid #10b981;color:#065f46;
+      align-self:flex-start;}
+    .input-area{display:flex;gap:10px;padding:10px;}
+    input[type="text"]{flex:1;padding:10px;border:1px solid #10b981;
+      border-radius:5px;}
+    button{padding:10px;border-radius:5px;border:none;cursor:pointer;}
+    .mic-btn{background:#e0f2f1;} .send-btn{background:#10b981;color:white;}
+    .listening-indicator{font-size:.8rem;color:red;animation:shimmer 1s infinite;
+      position:absolute;right:15px;top:-15px;}
+    @keyframes shimmer{0%{opacity:.2;}50%{opacity:1;}100%{opacity:.2;}}
+  </style>
+</head>
+<body>
+
+  <div class="center landing" id="landingPage">
+    <div class="logo">🌱</div>
+    <div class="title">AgriGuru</div>
+    <div class="subtitle">Your Personalized Farmer Buddy</div>
+    <button class="btn" onclick="startChat()">Start Farming Chat</button>
+  </div>
+
+  <div class="chat-container" id="chatContainer">
+    <div style="padding:10px;">
+      <h2 style="margin:0;color:#065f46;">🌾 AgriGuru Chat</h2>
+    </div>
+    <div class="messages" id="messages"></div>
+    <form class="input-area" onsubmit="sendMessage(event)">
+      <div style="position:relative;flex:1;">
+        <input type="text" id="userInput" placeholder="Ask about crops, weather, soil..." autocomplete="off"/>
+        <div id="listeningIndicator" class="listening-indicator" style="display:none;">Listening...</div>
+      </div>
+      <button type="button" class="mic-btn" onclick="toggleVoice()">🎤</button>
+      <button class="send-btn" type="submit">Send</button>
+    </form>
+  </div>
+
+  <script>
+    const landing = document.getElementById('landingPage'),
+          chat    = document.getElementById('chatContainer'),
+          messages = document.getElementById('messages'),
+          input    = document.getElementById('userInput'),
+          micInd   = document.getElementById('listeningIndicator');
+    let recognition, isListening=false;
+
+    function startChat(){
+      landing.style.display='none';
+      chat.style.display='flex';
+      input.focus();
+    }
+
+    async function sendMessage(e){
+      e.preventDefault();
+      const text = input.value.trim();
+      if(!text) return;
+      addMessage(text,'user');
+      input.value='';
+      try {
+        const res = await fetch('http://localhost:5000/api/chat',{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({text})
+        });
+        if(!res.ok) throw new Error();
+        const {reply} = await res.json();
+        addMessage(reply,'ai');
+      } catch {
+        addMessage('⚠️ Something went wrong. Please try again.','ai');
+      }
+    }
+
+    function addMessage(txt,sender){
+      const d=document.createElement('div');
+      d.className='message '+sender;
+      d.textContent=txt;
+      messages.appendChild(d);
+      messages.scrollTop=messages.scrollHeight;
+    }
+
+    function toggleVoice(){
+      if(!('webkitSpeechRecognition' in window)){
+        return alert('Speech Recognition not supported');
+      }
+      if(!recognition){
+        recognition=new webkitSpeechRecognition();
+        recognition.lang='en-US';
+        recognition.interimResults=false;
+        recognition.maxAlternatives=1;
+        recognition.onstart=()=>{isListening=true;micInd.style.display='block';};
+        recognition.onresult=e=>{
+          const txt=e.results[0][0].transcript;
+          input.value=txt;
+        };
+        recognition.onend=()=>{
+          isListening=false;
+          micInd.style.display='none';
+          sendMessage(new Event('submit'));
+        };
+        recognition.onerror=err=>{
+          console.error(err);
+          isListening=false;micInd.style.display='none';
+        };
+      }
+      isListening?recognition.stop():recognition.start();
+    }
+  </script>
+</body>
+</html>

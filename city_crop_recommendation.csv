@@ -1,0 +1,21 @@
+City,State,Soil_Type,Climate,Recommended_Crop
+Delhi,Delhi,Alluvial (loam),Subtropical; low rainfall,Wheat
+Mumbai,Maharashtra,Laterite (clay/loam),Tropical monsoon,Rice
+Bengaluru,Karnataka,Red loamy,Moderate rainfall; mild,Tapioca (Ragi)
+Kolkata,West Bengal,Alluvial (silt),Tropical monsoon,Rice
+Chennai,Tamil Nadu,Limestone (sandy),Tropical dry,Rice
+Hyderabad,Telangana,Black cotton soil (clay),Semi-arid,Cotton
+Pune,Maharashtra,Black soil (clay),Tropical wet & dry,Sugarcane
+Ahmedabad,Gujarat,Alluvial & black soil,Arid to semi-arid,Groundnut
+Lucknow,Uttar Pradesh,Alluvial (loam),Subtropical,Rice
+Jaipur,Rajasthan,Sandy loam,Arid,Mustard
+Patna,Bihar,Alluvial (clay loam),Subtropical,Rice
+Bhopal,Madhya Pradesh,Black cotton soil (clay),Subtropical,Soya bean
+Guwahati,Assam,Alluvial (silt loam),Humid sub-tropical,Rice
+Bhubaneswar,Odisha,Lateritic (loam),Tropical monsoon,Rice
+Thiruvananthapuram,Kerala,Laterite (sandy loam),Tropical monsoon,Coconut
+Kochi,Kerala,Alluvial (silt loam),Tropical,Rubber
+Chandigarh,Chandigarh,Alluvial (loam),Subtropical,Wheat
+Dehradun,Uttarakhand,Alluvial & gravel,Humid subtropical,Maize
+Imphal,Manipur,Alluvial (silt),Humid subtropical,Rice
+Port Blair,Andaman & Nicobar,Marine alluvial (sandy),Tropical,Rubber

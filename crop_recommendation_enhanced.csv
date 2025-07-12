@@ -1,0 +1,6 @@
+Crop,pH_min,pH_max,N_req,P_req,K_req,Rainfall_min,Rainfall_max,Temp_min,Temp_max
+Rice,5.5,7.0,High,High,High,1000,3000,20,35
+Wheat,6.0,7.5,Med,Med,Med,300,900,10,25
+Maize,5.5,7.5,High,High,High,600,900,18,30
+Cotton,6.0,8.0,Med,Med,Med,600,1000,20,35
+Groundnut,6.0,7.5,High,Med,High,500,800,20,30
